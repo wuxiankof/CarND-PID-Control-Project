@@ -1,6 +1,10 @@
 #ifndef PID_H
 #define PID_H
 
+#include <vector>
+
+using std::vector;
+
 class PID {
  public:
   /**
@@ -23,6 +27,7 @@ class PID {
    * Update the PID error variables given cross track error.
    * @param cte The current cross track error
    */
+    
   void UpdateError(double cte);
 
   /**
@@ -30,7 +35,13 @@ class PID {
    * @output The total PID error
    */
   double TotalError();
+  
+  // mean squared error (MSE) 
+  double MSE();
 
+  int iCounter; // number of timesteps passed
+  
+  
  private:
   /**
    * PID Errors
@@ -45,6 +56,17 @@ class PID {
   double Kp;
   double Ki;
   double Kd;
+    
+    //WX defined
+    double prev_cte;
+    double cte;
+    double diff_cte;
+    double int_cte;
+  
+ 
+  int N = 100;  // sample size to calcuate MSE
+  vector<double> VectCTE; // vector of cte
+    
 };
 
 #endif  // PID_H
