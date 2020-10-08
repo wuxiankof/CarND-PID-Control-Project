@@ -38,9 +38,10 @@ int main() {
     /**
     * TODO: Initialize the pid variable.
     */
-    double Kp_ = 0.2; //0.05;
-    double Ki_ = 0.004; //10;
-    double Kd_ = 3; //1.5;
+    double Kp_ = 2.48452; //0.2; 
+    double Ki_ = 0.0184154; //0.004; 
+    double Kd_ = 19.7157; //3; 
+  
     pid.Init(Kp_, Ki_, Kd_);
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, 
@@ -68,12 +69,18 @@ int main() {
            * NOTE: Feel free to play around with the throttle and speed.
            *   Maybe use another PID controller to control the speed!
            */
+            // pass cte to pid controller
             pid.UpdateError(cte);
+          
+            // calculate steerring value
             steer_value = pid.TotalError();
             if (steer_value > 1)
                 steer_value = 1;
             else if (steer_value < -1)
                 steer_value = -1;
+          
+            // twiddle fine-tuning lyperparameters
+            //pid.Twiddle();
 
           
           // DEBUG

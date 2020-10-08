@@ -1,6 +1,6 @@
 #ifndef PID_H
 #define PID_H
-
+#include <iostream>
 #include <vector>
 
 using std::vector;
@@ -38,6 +38,11 @@ class PID {
   
   // mean squared error (MSE) 
   double MSE();
+  
+  void UpdateP(vector<double> P);
+  
+  // twiddle
+  void Twiddle();
 
   int iCounter; // number of timesteps passed
   
@@ -57,15 +62,22 @@ class PID {
   double Ki;
   double Kd;
     
-    //WX defined
-    double prev_cte;
-    double cte;
-    double diff_cte;
-    double int_cte;
+  //WX defined
+  double prev_cte;
+  double cte;
+  double diff_cte;
+  double int_cte;
   
- 
   int N = 100;  // sample size to calcuate MSE
   vector<double> VectCTE; // vector of cte
+  
+  vector<double> Vect_P; 
+  vector<double> Vect_dP;
+  int idx;
+  double best_error;
+  bool flag2; 
+  bool flagNext; 
+  double tol; 
     
 };
 
