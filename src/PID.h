@@ -39,13 +39,14 @@ class PID {
   // mean squared error (MSE) 
   double MSE();
   
+  // update PID
   void UpdateP(vector<double> P);
   
   // twiddle
   void Twiddle();
 
-  int iCounter; // number of timesteps passed
-  
+  // number of timesteps passed
+  int iCounter; 
   
  private:
   /**
@@ -62,22 +63,25 @@ class PID {
   double Ki;
   double Kd;
     
-  //WX defined
+  //other varialbes defined
   double prev_cte;
   double cte;
   double diff_cte;
   double int_cte;
   
-  int N = 100;  // sample size to calcuate MSE
-  vector<double> VectCTE; // vector of cte
+  // variables used in the twiddle function
+    
+  int N;  // sample size to calcuate MSE
+  vector<double> VectCTE; // vector of ctes
   
-  vector<double> Vect_P; 
-  vector<double> Vect_dP;
-  int idx;
-  double best_error;
-  bool flag2; 
+  vector<double> Vect_P;  // vector of [P, I, D] values
+  vector<double> Vect_dP; // vector of [dP, dI, dD] values
+    
+  int idx; // index of current hyperprameters being fine-tuned
+  double best_error; // current best error
+    
+  bool flag2;         
   bool flagNext; 
-  double tol; 
     
 };
 

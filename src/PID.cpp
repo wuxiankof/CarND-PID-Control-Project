@@ -16,22 +16,22 @@ void PID::Init(double Kp_, double Ki_, double Kd_) {
   this->Ki = Ki_;
   this->Kd = Kd_;
 
+  //initiate variables
   this->prev_cte = 0;
   this->cte = 0;
   this->diff_cte = 0;
   this->int_cte = 0;
   
+  //initiate variables for the twiddle function
   this->N = 100;
   this->iCounter = 0;
   VectCTE = vector<double>(N, 0.0);
-  
   Vect_P = {Kp_,  Ki_, Kd_};
   Vect_dP = {0.1, 0.001, 1};
   idx = 0;
   best_error = 10000.0;
   flag2 = false;
   flagNext = false;
-  tol = 0.2;
 
 }
 
@@ -43,10 +43,9 @@ void PID::UpdateError(double cte) {
     this->cte = cte;
     this->diff_cte = this->cte - this->prev_cte;
     this->int_cte += cte;
-    
     this->prev_cte = cte;
   
-  this->VectCTE[iCounter % N] = cte*cte;
+  this->VectCTE[iCounter % N] = cte*cte;  // note: only store the latest N cte^2
   this->iCounter += 1;  
 
 }
@@ -60,7 +59,7 @@ double PID::TotalError() {
     return steering;  // TODO: Add your total error calc here!
 }
 
- // mean squared error (MSE) 
+ // mean squared error (MSE) for the latest N cte^2
 double PID::MSE(){
    
    if (this->iCounter < N)
@@ -74,6 +73,7 @@ double PID::MSE(){
    }
  }
 
+// update PID
 void PID::UpdateP(vector<double> P){
   
   this->Kp = P[0];
@@ -82,9 +82,10 @@ void PID::UpdateP(vector<double> P){
   
 }
 
+// twiddle
 void PID::Twiddle(){
   
-  if ( (iCounter > N) && (Vect_P[0]+Vect_P[1]+Vect_P[2] > tol) && (iCounter % N==0) ){
+  if ( (iCounter > N) && (iCounter < 60*N) && (iCounter % N==0) ){
     
     if(iCounter == 2*N){
       best_error = MSE();

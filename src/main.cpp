@@ -38,6 +38,8 @@ int main() {
     /**
     * TODO: Initialize the pid variable.
     */
+    
+    // Initiate PID values
     double Kp_ = 2.48452; //0.2; 
     double Ki_ = 0.0184154; //0.004; 
     double Kd_ = 19.7157; //3; 
@@ -69,20 +71,20 @@ int main() {
            * NOTE: Feel free to play around with the throttle and speed.
            *   Maybe use another PID controller to control the speed!
            */
-            // pass cte to pid controller
-            pid.UpdateError(cte);
+            
+          // pass cte to pid controller
+           pid.UpdateError(cte);
           
-            // calculate steerring value
-            steer_value = pid.TotalError();
-            if (steer_value > 1)
-                steer_value = 1;
-            else if (steer_value < -1)
-                steer_value = -1;
+          // calculate steerring value
+          steer_value = pid.TotalError();
+          if (steer_value > 1)
+              steer_value = 1;
+          else if (steer_value < -1)
+              steer_value = -1;
           
-            // twiddle fine-tuning lyperparameters
-            //pid.Twiddle();
+          // twiddle fine-tuning lyperparameters
+          //pid.Twiddle();
 
-          
           // DEBUG
           if (pid.iCounter % 100 == 0){
             std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
