@@ -38,7 +38,7 @@ In order to make the vehicle drive more smoothly compared with the first run (ba
 | 5       	| 0.2 	| 0.004 	| 4.0 	|
 | 6       	| 0.2 	| 0.004 	| 2.0 	|
 
-An video showing the driving results for the sets of hyperparameters above can be find [here](./Videos/All.mp4).
+An video showing the driving results for the sets of hyperparameters above can be find [here](./Videos/All.mp4), or the YouTube link [here](https://youtu.be/ubCu8_ikVdY);
 
 As shown in the video, it's hard to identify the differences among those results since all of them show the car successfully driving on the track. Therefore, the twiddle method was adopted to further fine-tune hypermarameters as described in the next Section.
 
